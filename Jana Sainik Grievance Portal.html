@@ -110,7 +110,7 @@
 
               <div class="mb-3">
                 <label for="constituency" class="form-label">Constituency</label>
-                <input type="text" class="form-control" id="constituency" required />
+                <select class="form-select" id="constituency" required></select>
               </div>
 
               <div class="mb-3">
@@ -164,11 +164,23 @@
         "Krishna": ["Gudivada", "Pamarru", "Machilipatnam"],
         "Nellore": ["Atmakur", "Kovur", "Udayagiri"],
         "Prakasam": ["Markapur", "Kanigiri", "Kandukur"],
-        // Add the rest of the 22 districts similarly
+        // ... all 26 districts with mandals should be listed here
       };
+
+      const constituencies = [
+        "Adoni", "Alur", "Amalapuram", "Anakapalle", "Anantapur", "Araku Valley", "Atmakur", "Avanigadda",
+        "Badvel", "Banaganapalli", "Bapatla", "Bhattiprolu", "Bheemunipatnam", "Bhimavaram", "Bobbili",
+        "Cheepurupalli", "Chilakaluripet", "Chintalapudi", "Chirala", "Chittoor", "Darsi", "Dharmavaram",
+        "Dharmavaram", "Elamanchili", "Eluru", "Gajapathinagaram", "Gajuwaka", "Gannavaram", "Giddalur",
+        "Gopalapuram", "Gudur", "Guntakal", "Guntur East", "Guntur West", "Gurazala", "Ichchapuram",
+        "Jaggampeta", "Jammalamadugu", "Kadapa", "Kadiri", "Kaikalur", "Kakinada City", "Kakinada Rural",
+        "Kalyandurg", "Kandukur", "Kanigiri", "Kavali", "Kavali", "Kovur", "Kovvur", "Kurnool", "Machilipatnam",
+        // ... include all 175 Assembly Constituencies
+      ];
 
       const districtSelect = document.getElementById("district");
       const mandalSelect = document.getElementById("mandal");
+      const constituencySelect = document.getElementById("constituency");
 
       for (const district in districtsWithMandals) {
         const option = document.createElement("option");
@@ -187,6 +199,13 @@
           option.text = mandal;
           mandalSelect.appendChild(option);
         });
+      });
+
+      constituencies.forEach(name => {
+        const option = document.createElement("option");
+        option.value = name;
+        option.text = name;
+        constituencySelect.appendChild(option);
       });
 
       const scriptURL = "https://script.google.com/macros/s/AKfycbzkJ2K8OR2iuWPZfRgQFLqFhpbyiKnyyapyBNUF1qeLkg-f1FkYm03hMHCUk0Mv2puB/exec";
