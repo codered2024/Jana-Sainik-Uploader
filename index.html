@@ -59,16 +59,6 @@
     </style>
   </head>
   <body>
-    <!-- div class="hero d-flex align-items-center justify-content-center">
-      <img src="logo.png" alt="Logo" class="logo" />
-      <div>
-        <h1>JanaSainik Grievance Portal</h1>
-        <p class="lead">Standing with Every Jana Sainik in Their Struggles!</p>
-      </div>
-      <img src="pawankalyan.jpg" alt="Pawan Kalyan" class="pawankalyan" />
-    </div -->
-
-    <!-- Header -->
     <div class="hero">
       <div class="container hero-content">
         <img src="logo.png" alt="Logo" />
@@ -99,56 +89,28 @@
                 </div>
                 <div class="col-md-6">
                   <label for="phone" class="form-label">Phone Number</label>
-                  <input
-                    type="tel"
-                    class="form-control"
-                    id="phone"
-                    pattern="[0-9]{10}"
-                    required
-                  />
+                  <input type="tel" class="form-control" id="phone" pattern="[0-9]{10}" required />
                 </div>
               </div>
 
               <div class="row mb-3">
                 <div class="col-md-4">
                   <label for="district" class="form-label">District</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="district"
-                    required
-                  />
+                  <select class="form-select" id="district" required></select>
                 </div>
                 <div class="col-md-4">
                   <label for="mandal" class="form-label">Mandal</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="mandal"
-                    required
-                  />
+                  <select class="form-select" id="mandal" required></select>
                 </div>
                 <div class="col-md-4">
                   <label for="village" class="form-label">Village / Ward</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="village"
-                    required
-                  />
+                  <input type="text" class="form-control" id="village" required />
                 </div>
               </div>
 
               <div class="mb-3">
-                <label for="constituency" class="form-label"
-                  >Constituency</label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  id="constituency"
-                  required
-                />
+                <label for="constituency" class="form-label">Constituency</label>
+                <select class="form-select" id="constituency" required></select>
               </div>
 
               <div class="mb-3">
@@ -157,36 +119,23 @@
                   <option value="">-- Select Category --</option>
                   <option>Local Leader Issue</option>
                   <option>Program Access Issue</option>
-                  <option>Party Membership / Insurance Issue</option>
-                  <option>Issues with Alliance Parties</option>
-                  <option>Issues with MLA / Party Incharges</option>
-                  <option>Govt Schemes Alloction Issues</option>
+                  <option>Party Membership Issue</option>
                   <option>Ground-Level Problems</option>
                   <option>Other</option>
                 </select>
               </div>
+
               <div class="mb-3">
-                <label for="message" class="form-label"
-                  >Describe Your Problem</label
-                >
-                <textarea
-                  class="form-control"
-                  id="message"
-                  rows="4"
-                  required
-                ></textarea>
+                <label for="message" class="form-label">Describe Your Problem</label>
+                <textarea class="form-control" id="message" rows="4" required></textarea>
               </div>
 
               <div class="mb-3">
-                <label for="files" class="form-label"
-                  >Upload Documents / Photos (optional)</label
-                >
+                <label for="files" class="form-label">Upload Documents / Photos (optional)</label>
                 <input type="file" id="files" class="form-control" multiple />
               </div>
 
-              <button type="submit" class="btn btn-danger w-100">
-                Submit Grievance
-              </button>
+              <button type="submit" class="btn btn-danger w-100">Submit Grievance</button>
             </form>
 
             <div class="alert alert-success mt-3 d-none" id="successAlert">
@@ -196,9 +145,9 @@
         </div>
       </div>
     </div>
-    <!-- Footer -->
+
     <footer>
-      <p>© 2025 JanaSainiks Grievance Desk | Jai JanaSena ✊</p>
+      <p>© 2025 JanaSainiks Grievance Desk</p>
       <p>
         Connect with us:
         <a href="#" class="text-white text-decoration-underline">Facebook</a> |
@@ -207,61 +156,104 @@
       </p>
     </footer>
 
-    <!-- Back to Top Button -->
     <button id="backToTopBtn" onclick="scrollToTop()">↑</button>
 
-    <!-- JavaScript to handle form submission and file upload -->
     <script>
-      const scriptURL =
-        "https://script.google.com/macros/s/AKfycbzkJ2K8OR2iuWPZfRgQFLqFhpbyiKnyyapyBNUF1qeLkg-f1FkYm03hMHCUk0Mv2puB/exec"; // 🔁 Replace this
+      const districtsWithMandals = {
+        "Guntur": ["Chebrolu", "Duggirala", "Pedakakani"],
+        "Krishna": ["Gudivada", "Pamarru", "Machilipatnam"],
+        "Nellore": ["Atmakur", "Kovur", "Udayagiri"],
+        "Prakasam": ["Markapur", "Kanigiri", "Kandukur"],
+        // ... all 26 districts with mandals should be listed here
+      };
 
-      document
-        .getElementById("grievanceForm")
-        .addEventListener("submit", async function (e) {
-          e.preventDefault();
-          const form = e.target;
-          const filesInput = document.getElementById("files");
-          const files = filesInput.files;
+      const constituencies = [
+        "Adoni", "Alur", "Amalapuram", "Anakapalle", "Anantapur", "Araku Valley", "Atmakur", "Avanigadda",
+        "Badvel", "Banaganapalli", "Bapatla", "Bhattiprolu", "Bheemunipatnam", "Bhimavaram", "Bobbili",
+        "Cheepurupalli", "Chilakaluripet", "Chintalapudi", "Chirala", "Chittoor", "Darsi", "Dharmavaram",
+        "Dharmavaram", "Elamanchili", "Eluru", "Gajapathinagaram", "Gajuwaka", "Gannavaram", "Giddalur",
+        "Gopalapuram", "Gudur", "Guntakal", "Guntur East", "Guntur West", "Gurazala", "Ichchapuram",
+        "Jaggampeta", "Jammalamadugu", "Kadapa", "Kadiri", "Kaikalur", "Kakinada City", "Kakinada Rural",
+        "Kalyandurg", "Kandukur", "Kanigiri", "Kavali", "Kavali", "Kovur", "Kovvur", "Kurnool", "Machilipatnam",
+        // ... include all 175 Assembly Constituencies
+      ];
 
-          const filesData = [];
+      const districtSelect = document.getElementById("district");
+      const mandalSelect = document.getElementById("mandal");
+      const constituencySelect = document.getElementById("constituency");
 
-          if (files.length > 0) {
-            for (let file of files) {
-              const base64 = await toBase64(file);
-              filesData.push({
-                name: file.name,
-                mimeType: file.type,
-                data: base64.split(",")[1], // Remove base64 prefix
-              });
-            }
-          }
+      for (const district in districtsWithMandals) {
+        const option = document.createElement("option");
+        option.value = district;
+        option.text = district;
+        districtSelect.appendChild(option);
+      }
 
-          const payload = {
-            name: form.name.value,
-            phone: form.phone.value,
-            district: form.district.value,
-            mandal: form.mandal.value,
-            village: form.village.value,
-            constituency: form.constituency.value,
-            category: form.category.value,
-            message: form.message.value,
-            files: filesData,
-          };
-
-          const response = await fetch(scriptURL, {
-            method: "POST",
-            body: JSON.stringify(payload),
-            headers: { "Content-Type": "application/json" },
-          });
-
-          const result = await response.json();
-          if (result.status === "success") {
-            document.getElementById("successAlert").classList.remove("d-none");
-            form.reset();
-          } else {
-            alert("Error: " + result.message);
-          }
+      districtSelect.addEventListener("change", () => {
+        mandalSelect.innerHTML = "";
+        const selectedDistrict = districtSelect.value;
+        const mandals = districtsWithMandals[selectedDistrict] || [];
+        mandals.forEach((mandal) => {
+          const option = document.createElement("option");
+          option.value = mandal;
+          option.text = mandal;
+          mandalSelect.appendChild(option);
         });
+      });
+
+      constituencies.forEach(name => {
+        const option = document.createElement("option");
+        option.value = name;
+        option.text = name;
+        constituencySelect.appendChild(option);
+      });
+
+      const scriptURL = "https://script.google.com/macros/s/AKfycbzkJ2K8OR2iuWPZfRgQFLqFhpbyiKnyyapyBNUF1qeLkg-f1FkYm03hMHCUk0Mv2puB/exec";
+
+      document.getElementById("grievanceForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const form = e.target;
+        const filesInput = document.getElementById("files");
+        const files = filesInput.files;
+
+        const filesData = [];
+        if (files.length > 0) {
+          for (let file of files) {
+            const base64 = await toBase64(file);
+            filesData.push({
+              name: file.name,
+              mimeType: file.type,
+              data: base64.split(",")[1]
+            });
+          }
+        }
+
+        const payload = {
+          name: form.name.value,
+          phone: form.phone.value,
+          district: form.district.value,
+          mandal: form.mandal.value,
+          village: form.village.value,
+          constituency: form.constituency.value,
+          category: form.category.value,
+          message: form.message.value,
+          files: filesData,
+        };
+
+        const response = await fetch(scriptURL, {
+          method: "POST",
+          body: JSON.stringify(payload),
+          headers: { "Content-Type": "application/json" },
+        });
+
+        const result = await response.json();
+        if (result.status === "success") {
+          document.getElementById("successAlert").classList.remove("d-none");
+          form.reset();
+        } else {
+          alert("Error: " + result.message);
+        }
+      });
 
       function toBase64(file) {
         return new Promise((resolve, reject) => {
